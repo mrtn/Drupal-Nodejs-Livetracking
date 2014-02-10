@@ -1,0 +1,142 @@
+<!DOCTYPE HTML>
+
+<html> 
+
+<head> 
+<title>MRTN Livetracking</title> 
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"/>
+<script type='text/javascript' src='lib/json2.js'></script>
+<script type='text/javascript' src='lib/jquery-1.10.2.min.js'></script>
+<script type='text/javascript' src='lib/jquery.mobile-1.3.1/jquery.mobile-1.3.1.min.js'></script>
+<script type='text/javascript' charset='utf-8' src="lib/helper.js"></script>
+<script type='text/javascript' charset='utf-8' src="lib/param.js"></script>
+<script type='text/javascript' charset='utf-8' src="lib/databaseCallback.js"></script>
+<script type='text/javascript' charset='utf-8' src="lib/database.js"></script>
+<script type='text/javascript' charset='utf-8' src="lib/connection.js"></script>
+<script type='text/javascript' charset='utf-8' src="lib/tracker.js"></script>
+<script type='text/javascript' charset='utf-8' src="lib/battery.js"></script>
+<script type='text/javascript' charset='utf-8' src='lib/starter.js'></script>
+<script type="text/javascript" charset="utf-8" src="cordova.js"></script>
+<link rel='stylesheet' type='text/css' href='lib/nodejs_livetracking.css'/>
+<link rel='stylesheet' type='text/css' href='lib/jquery.mobile-1.3.1/jquery.mobile-1.3.1.min.css' />
+</head> 
+
+<body>
+
+<!-- Home page ! -->
+<div data-role="page" id="accueil">
+  <div data-role="header">
+    <h1>Settings</h1>
+    <div data-role="navbar">
+      <ul>
+        <li><a class="ui-btn-active  ui-state-persist" href="#accueil" data-transition="none" data-icon="gear">Settings</a></li>
+        <li><a href="#startTracking" data-transition="none" data-icon="search">Track</a></li>
+        <li><a href="#history" data-transition="none" data-icon="star">History</a></li>
+      </ul>
+    </div> <!-- Navbar -->
+  </div> <!-- Header -->
+  <div data-role="content" data-theme="a">
+      <div id="explain">
+        <span class="logo"><img style='width:39px;' alt='logo' src='lib/logo.png'></span>
+        <h4>Welcome on Drupal tracking App ! This application works perfect with the Drupal module nodejs livetracking.</h4>
+        <button id="livetracking_setting" data-theme="a">Livetracking setting</button>      
+      </div>
+      <div id="setting" class="hidden">
+        <button id="close_setting" data-theme="a">Close this setting</button>
+        <div data-role="fieldcontain">
+          <label for="website">Server name or IP :</label>
+          <input class='setting-input' type="text" name="website" id="website" value="http://www.your_website.com"/>
+        </div>
+        <div data-role="fieldcontain">
+          <label for="port">Port :</label>
+          <input class='setting-input' type="number" name="port" id="port" value="8080"/>
+        </div>
+        <div data-role="fieldcontain">
+          <label for="login">Login :</label>
+          <input class='setting-input' type="text" name="login" id="login" value="Your_username"/>
+        </div>
+        <div data-role="fieldcontain">
+          <label for="password">Password :</label>
+          <input class='setting-input' type="text" name="password" id="password" value="Your_password"/>
+        </div>
+      </div>
+    </div>
+  <div data-role="footer" data-position="fixed" class="ui-bar" data-id="statebar">
+    <a class="internet" href="#" data-role="button" data-theme="e" data-icon="delete">Internet</a>
+    <a class="isTracking" href="#" data-role="button" data-theme="e" data-icon="delete">Tracking</a>
+  </div>
+</div> <!-- Page -->
+
+<!-- Traking page ! -->
+<div data-role="page" id="startTracking">
+  <div data-role="header">
+    <h1>Track</h1>
+    <div data-role="navbar">
+      <ul>
+        <li><a href="#accueil" data-transition="none" data-icon="gear">Settings</a></li>
+        <li><a class="ui-btn-active  ui-state-persist" href="#startTracking" data-transition="none" data-icon="search">Track</a></li>
+        <li><a href="#history" data-transition="none" data-icon="star">History</a></li>
+      </ul>
+    </div>
+  </div>
+  <div data-role="content" data-theme="a">
+    <p id="startTracking_status"></p>
+    <button data-role="button" id="startTracking_start" data-theme="e">Start Tracking</button>
+    <button data-role="button" id="startTracking_stop" data-theme="b">Stop Tracking</button>
+    <p id="startTracking_debug"></p>
+  </div>
+  <div data-role="footer" data-position="fixed" class="ui-bar" data-id="statebar">
+  <a class="internet" href="#" data-role="button" data-theme="e" data-icon="delete">Internet</a>
+  <a class="isTracking" href="#" data-role="button" data-theme="e" data-icon="delete">Tracking</a>
+  </div>
+</div>
+
+<!-- History page ! -->
+<div data-role="page" id="history">
+  <div data-role="header">
+    <h1>Historique</h1>
+    <div data-role="navbar">
+      <ul>
+        <li><a href="#accueil" data-transition="none" data-icon="gear">Settings</a></li>
+        <li><a href="#startTracking" data-transition="none" data-icon="search">Track</a></li>
+        <li><a class="ui-btn-active  ui-state-persist" href="#history" data-transition="none" data-icon="star">History</a></li>
+      </ul>
+    </div>
+  </div>
+  <div data-role="content" data-theme="a">
+  <button id="home_clearstorage_button" data-theme="e">Delete all tracks</button>
+  <p id="tracks_recorded"></p>
+        <ol data-role="listview" id="history_tracklist">
+        </ol>
+  </div>
+  <div data-role="footer" data-position="fixed" class="ui-bar" data-id="statebar">
+  <a class="internet" href="#" data-role="button" data-theme="e" data-icon="delete">Internet</a>
+  <a class="isTracking" href="#" data-role="button" data-theme="e" data-icon="delete">Tracking</a>
+  </div>
+    
+</div>
+
+<!-- Detail page ! -->
+<div data-role="page" id="track_info">
+  <div data-role="header">
+    <h1>Tracklog</h1>
+    <div data-role="navbar">
+      <ul>
+        <li><a href="#accueil" data-transition="none" data-icon="gear">Settings</a></li>
+        <li><a href="#startTracking" data-transition="none" data-icon="search">Track</a></li>
+        <li><a class="ui-btn-active  ui-state-persist" href="#history" data-transition="none" data-icon="star">History</a></li>
+      </ul>
+    </div>
+  </div>
+  <div data-role="content" data-theme="a">
+    <p id="track_info_info"></p>
+    <!-- id="map_canvas" style="position:absolute;top:80;left:0;width:100%;height:300px;"></div>-->
+    <button data-role="button" id="deleteIt" data-theme="e" data-icon="alert"> Delete </button>
+  </div>
+ <div data-role="footer" data-position="fixed" class="ui-bar" data-id="statebar">
+  <a class="internet" href="#" data-role="button" data-theme="e" data-icon="delete">Internet</a>
+  <a class="isTracking" href="#" data-role="button" data-theme="e" data-icon="delete">Tracking</a>
+  </div>
+</div>
+</body>
+ </html>
